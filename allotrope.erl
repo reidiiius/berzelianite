@@ -1,5 +1,37 @@
 -module(allotrope).
--export([acquire/2, ennead/2, obtain/2, tuplist/0]).
+-export([
+  acquire/1,
+  datastore/0,
+  ennead/1,
+  keylist/0,
+  obtain/1
+]).
+
+acquire(A) ->
+  proplists:get_value(A, tuplist(), string:copies("____ ", 12)).
+
+datastore() ->
+  orddict:from_list(tuplist()).
+
+ennead(A) -> 
+  V = acquire(A),
+  {
+  string:concat(string:substr(V,51,10), string:substr(V, 1,50)),
+  string:concat(string:substr(V,26,35), string:substr(V, 1,25)),
+                string:substr(V, 1,60),
+  string:concat(string:substr(V,36,25), string:substr(V, 1,35)),
+  string:concat(string:substr(V,11,50), string:substr(V, 1,10)),
+  string:concat(string:substr(V,46,15), string:substr(V, 1,45)),
+  string:concat(string:substr(V,21,40), string:substr(V, 1,20)),
+  string:concat(string:substr(V,56, 5), string:substr(V, 1,55)),
+  string:concat(string:substr(V,31,30), string:substr(V, 1,30))
+  }.
+
+keylist() ->
+  lists:sort(proplists:get_keys(tuplist())).
+
+obtain(A) ->
+  string:tokens(acquire(A), "_ ").
 
 tuplist() ->
    [{j136y7,  "____ ____ SnPb UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp "}, 
@@ -86,24 +118,4 @@ tuplist() ->
     {n67x2,   "____ AuUr ____ ____ TiHg FeFe HgTi ____ SnNp UrAu ____ PbPb "}, 
     {n6x2,    "FeCu HgMn ____ ____ MnHg CuFe PbTi ____ AuNp NpAu ____ ____ "}].
 
-acquire(A, L) ->
-  Z = "____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ",
-  proplists:get_value(A, L, Z).
-
-obtain(A, L) ->
-  string:tokens(acquire(A, L), "____ ").
-
-ennead(A, L) -> 
-  V = acquire(A, L),
-  {
-  string:concat(string:substr(V,51,10), string:substr(V, 1,50)),
-  string:concat(string:substr(V,26,35), string:substr(V, 1,25)),
-                string:substr(V, 1,60),
-  string:concat(string:substr(V,36,25), string:substr(V, 1,35)),
-  string:concat(string:substr(V,11,50), string:substr(V, 1,10)),
-  string:concat(string:substr(V,46,15), string:substr(V, 1,45)),
-  string:concat(string:substr(V,21,40), string:substr(V, 1,20)),
-  string:concat(string:substr(V,56, 5), string:substr(V, 1,55)),
-  string:concat(string:substr(V,31,30), string:substr(V, 1,30))
-  }.
 
