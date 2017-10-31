@@ -15,7 +15,7 @@ command line
     user@multivac2:~$ cd berzelianite/
     user@multivac2:~/berzelianite$ erl
     Eshell V5.9.1
-    1> c(allotrope.erl).
+    1> c(allotrope).
     {ok,allotrope}
     2> allotrope:ennead(n0, allotrope:tuplist()). 
     {"____ FePb HgCu ____ SnSn ____ CuHg PbFe ____ AuAg ____ AgAu ",
@@ -27,7 +27,13 @@ command line
      "CuHg PbFe ____ AuAg ____ AgAu ____ FePb HgCu ____ SnSn ____ ",
      "FePb HgCu ____ SnSn ____ CuHg PbFe ____ AuAg ____ AgAu ____ ",
      "____ AuAg ____ AgAu ____ FePb HgCu ____ SnSn ____ CuHg PbFe "}
-    3>
+    3> element(3, allotrope:ennead(n0, allotrope:tuplist())).
+    "HgCu ____ SnSn ____ CuHg PbFe ____ AuAg ____ AgAu ____ FePb "
+    4> allotrope:acquire(n0, allotrope:tuplist()).
+    "HgCu ____ SnSn ____ CuHg PbFe ____ AuAg ____ AgAu ____ FePb "
+    5> allotrope:obtain(n0, allotrope:tuplist()).
+    ["HgCu","SnSn","CuHg","PbFe","AuAg","AgAu","FePb"]
+    6>
 
 ---
 
