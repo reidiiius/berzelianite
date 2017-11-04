@@ -4,9 +4,13 @@
   atomize/1,
   datastore/0,
   ennead/1,
+  extract/0,
   headstock/2,
   keylist/0,
+  nucleon/1,
   obtain/1,
+  quanta/1,
+  spectra/1,
   vesicle/0
 ]).
 
@@ -21,17 +25,24 @@ datastore() ->
   orddict:from_list(vesicle()).
 
 ennead(A) ->
-  {
-  headstock(A, 31),
-  headstock(A, 16),
-  string:sub_string(acquire(A), 1, string:len(acquire(A))),
-  headstock(A, 22),
-  headstock(A,  7),
-  headstock(A, 28),
-  headstock(A, 13),
-  headstock(A, 34),
-  headstock(A, 19)
-  }.
+  Bj = headstock(A,31),
+  Fn = headstock(A,16),
+  Cn = headstock(A,36),
+  Gn = headstock(A,22),
+  Dn = headstock(A, 7),
+  An = headstock(A,28),
+  En = headstock(A,13),
+  Bn = headstock(A,34),
+  Fk = headstock(A,19),
+  erlang:make_tuple( 9, Dn, [
+    {1, Bj}, {2, Fn}, {3, Cn},
+    {4, Gn}, {5, Dn}, {6, An},
+    {7, En}, {8, Bn}, {9, Fk}
+  ]).
+
+extract() ->
+  AL = proplists:split(vesicle(), [n0, j3, j36, j6]),
+  io:format("~76p~n", [element(1, AL)]).
 
 headstock(A, S) when (S < 1) or (S == 1) or (S > 35) ->
   string:sub_string(acquire(A), 1, string:len(acquire(A)));
@@ -46,11 +57,31 @@ headstock(A, S) when (S > 1) and (S < 36) ->
 keylist() ->
   lists:sort(proplists:get_keys(vesicle())).
 
+nucleon(A) ->
+  list_to_atom(
+    element(2, lists:partition(fun(Q) -> Q == 64 end, acquire(A)))).
+
 obtain(A) ->
   string:tokens(acquire(A),[64,100]).
 
-vesicle() -> [
-      {j2,{"vv","zq","dd","dd","ry","wu","dd","uw","dd","sx","dd","qz"}},
+quanta(A) ->
+  list_to_atom(string:join(obtain(A),[64])).
+
+spectra(_L) when is_list(_L) ->
+  lists:foreach(
+    fun(Q) -> io:format("~p,~n", [acquire(Q)]) end, keylist());
+spectra(_T) when is_tuple(_T) ->
+  lists:foreach(
+    fun(Q) -> io:format("~72p,~n~n", [ennead(Q)]) end, keylist());
+spectra(_I) when is_integer(_I) ->
+  lists:foreach(
+    fun(Q) -> io:format("~w,~n", [obtain(Q)]) end, keylist());
+spectra(_A) when is_atom(_A) ->
+  lists:foreach(
+    fun(Q) -> io:format("~p,~n", [quanta(Q)]) end, keylist()).
+
+vesicle() ->
+     [{j2,{"vv","zq","dd","dd","ry","wu","dd","uw","dd","sx","dd","qz"}},
       {j3,{"vt","dd","tv","xq","dd","ws","dd","uu","dd","sw","dd","qx"}},
       {j5,{"wr","dd","ut","dd","sv","oq","qo","dd","dd","tu","dd","rw"}},
       {j6,{"vu","dd","tw","dd","rx","wt","dd","uv","yq","dd","dd","qy"}},
