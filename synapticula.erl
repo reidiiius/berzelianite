@@ -1,22 +1,25 @@
 -module(synapticula).
 -export([
   acquire/1,
+  allodium/0,
   atomize/1,
   datastore/0,
   ennead/1,
-  extract/0,
+  gather/0,
   headstock/2,
   keylist/0,
   nucleon/1,
   obtain/1,
   quanta/1,
-  spectra/1,
   vesicle/0
 ]).
 
 acquire(A) ->
   string:join(tuple_to_list(proplists:get_value(A,vesicle(),
   list_to_tuple(string:copies([[100,100]],12)))),[64]).
+
+allodium() ->
+  lists:flatmap(fun(Q) -> [{Q,ennead(Q)}] end, keylist()).
 
 atomize(A) ->
   list_to_atom(acquire(A)).
@@ -40,9 +43,10 @@ ennead(A) ->
     {7, En}, {8, Bn}, {9, Fk}
   ]).
 
-extract() ->
-  AL = proplists:split(vesicle(), [n0, j3, j36, j6]),
-  io:format("~76p~n", [element(1, AL)]).
+gather() ->
+  S = [n0, j3, j36, j6],
+  L = proplists:split(vesicle(), S),
+  lists:flatten(element(1, L)).
 
 headstock(A, S) when (S < 1) or (S == 1) or (S > 35) ->
   string:sub_string(acquire(A), 1, string:len(acquire(A)));
@@ -66,19 +70,6 @@ obtain(A) ->
 
 quanta(A) ->
   list_to_atom(string:join(obtain(A),[64])).
-
-spectra(_L) when is_list(_L) ->
-  lists:foreach(
-    fun(Q) -> io:format("~p,~n", [acquire(Q)]) end, keylist());
-spectra(_T) when is_tuple(_T) ->
-  lists:foreach(
-    fun(Q) -> io:format("~72p,~n~n", [ennead(Q)]) end, keylist());
-spectra(_I) when is_integer(_I) ->
-  lists:foreach(
-    fun(Q) -> io:format("~w,~n", [obtain(Q)]) end, keylist());
-spectra(_A) when is_atom(_A) ->
-  lists:foreach(
-    fun(Q) -> io:format("~p,~n", [quanta(Q)]) end, keylist()).
 
 vesicle() ->
      [{j2,{"vv","zq","dd","dd","ry","wu","dd","uw","dd","sx","dd","qz"}},
