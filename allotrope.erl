@@ -1,8 +1,11 @@
 -module(allotrope).
 -export([
   acquire/1,
+  allodium/0,
+  allodium/1,
   datastore/0,
   ennead/1,
+  gather/1,
   keylist/0,
   obtain/1
 ]).
@@ -10,10 +13,16 @@
 acquire(A) ->
   proplists:get_value(A, tuplist(), string:copies("____ ", 12)).
 
+allodium() ->
+  lists:flatmap(fun(Q) -> [{Q, ennead(Q)}] end, keylist()).
+
+allodium([]) -> [];
+allodium([H | T]) -> [{H, ennead(H)} | allodium(T)].
+
 datastore() ->
   orddict:from_list(tuplist()).
 
-ennead(A) -> 
+ennead(A) ->
   V = acquire(A),
   {
   string:concat(string:substr(V,51,10), string:substr(V, 1,50)),
@@ -26,6 +35,10 @@ ennead(A) ->
   string:concat(string:substr(V,56, 5), string:substr(V, 1,55)),
   string:concat(string:substr(V,31,30), string:substr(V, 1,30))
   }.
+
+gather(AL) ->
+  TL = proplists:split(tuplist(), AL),
+  lists:flatten(element(1, TL)).
 
 keylist() ->
   lists:sort(proplists:get_keys(tuplist())).

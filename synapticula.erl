@@ -2,10 +2,11 @@
 -export([
   acquire/1,
   allodium/0,
+  allodium/1,
   atomize/1,
   datastore/0,
   ennead/1,
-  gather/0,
+  gather/1,
   headstock/2,
   keylist/0,
   nucleon/1,
@@ -20,6 +21,9 @@ acquire(A) ->
 
 allodium() ->
   lists:flatmap(fun(Q) -> [{Q,ennead(Q)}] end, keylist()).
+
+allodium([]) -> [];
+allodium([H | T]) -> [{H, ennead(H)} | allodium(T)].
 
 atomize(A) ->
   list_to_atom(acquire(A)).
@@ -43,10 +47,9 @@ ennead(A) ->
     {7, En}, {8, Bn}, {9, Fk}
   ]).
 
-gather() ->
-  S = [n0, j3, j36, j6],
-  L = proplists:split(vesicle(), S),
-  lists:flatten(element(1, L)).
+gather(AL) ->
+  TL = proplists:split(vesicle(), AL),
+  lists:flatten(element(1, TL)).
 
 headstock(A, S) when (S < 1) or (S == 1) or (S > 35) ->
   string:sub_string(acquire(A), 1, string:len(acquire(A)));
