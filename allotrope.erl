@@ -7,7 +7,9 @@
   ennead/1,
   gather/1,
   keylist/0,
-  obtain/1
+  obtain/1,
+  pegbox/2,
+  tuplist/0
 ]).
 
 acquire(A) ->
@@ -25,15 +27,15 @@ datastore() ->
 ennead(A) ->
   V = acquire(A),
   {
-  string:concat(string:substr(V,51,10), string:substr(V, 1,50)),
-  string:concat(string:substr(V,26,35), string:substr(V, 1,25)),
-                string:substr(V, 1,60),
-  string:concat(string:substr(V,36,25), string:substr(V, 1,35)),
-  string:concat(string:substr(V,11,50), string:substr(V, 1,10)),
-  string:concat(string:substr(V,46,15), string:substr(V, 1,45)),
-  string:concat(string:substr(V,21,40), string:substr(V, 1,20)),
-  string:concat(string:substr(V,56, 5), string:substr(V, 1,55)),
-  string:concat(string:substr(V,31,30), string:substr(V, 1,30))
+  pegbox(V, 50),
+  pegbox(V, 25),
+  pegbox(V, 60),
+  pegbox(V, 35),
+  pegbox(V, 10),
+  pegbox(V, 45),
+  pegbox(V, 20),
+  pegbox(V, 55),
+  pegbox(V, 30)
   }.
 
 gather(AL) ->
@@ -45,6 +47,9 @@ keylist() ->
 
 obtain(A) ->
   string:tokens(acquire(A), "_ ").
+
+pegbox(S, N) ->
+  string:concat(string:substr(S, N+1, length(S)-N), string:substr(S, 1, N)).
 
 tuplist() ->
    [{j136y7,  "____ ____ SnPb UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp "}, 
