@@ -7,9 +7,12 @@
   datastore/0,
   ennead/1,
   gather/1,
+  gluon/2,
   headstock/2,
   keylist/0,
+  nucleon/2,
   obtain/1,
+  quarks/0,
   vesicle/0
 ]).
 
@@ -55,10 +58,15 @@ gather(AL) ->
   TL = proplists:split(vesicle(), AL),
   lists:flatten(element(1, TL)).
 
+gluon(B, [H|[T|_]]) ->
+  string:concat(
+    string:substr(B, element(1, H), element(2, H)),
+    string:substr(B, element(1, T), element(2, T))).
+
 headstock(_, N) when (N < 2) or (N > 37) ->
   string:copies([95,95,32], 12);
 headstock(A, N) when (N > 1) and (N < 38) ->
-  S = acquire(A),
+  S = nucleon(A, cn),
   L = string:len(S),
   string:concat(
     string:sub_string(S, N, L),
@@ -67,11 +75,37 @@ headstock(A, N) when (N > 1) and (N < 38) ->
 keylist() ->
   lists:sort(proplists:get_keys(vesicle())).
 
+nucleon(Neutron, Proton) ->
+  gluon(acquire(Neutron), proplists:get_value(Proton, quarks())).
+
 obtain(A) ->
   case lists:member(A, keylist()) of
     true -> string:tokens(acquire(A), [32,95]);
     false -> lists:duplicate(7, [63,63])
   end.
+
+quarks() ->
+ [{aj, [{25,12}, { 1,24}]},
+  {ak, [{31, 6}, { 1,30}]},
+  {an, [{28, 9}, { 1,27}]},
+  {bj, [{31, 6}, { 1,30}]},
+  {bk, [{ 1,36}, { 1, 0}]},
+  {bn, [{34, 3}, { 1,33}]},
+  {cj, [{34, 3}, { 1,33}]},
+  {ck, [{ 4,33}, { 1, 3}]},
+  {cn, [{ 1,36}, { 1, 0}]},
+  {dj, [{ 4,33}, { 1, 3}]},
+  {dk, [{10,27}, { 1, 9}]},
+  {dn, [{ 7,30}, { 1, 6}]},
+  {ej, [{10,27}, { 1, 9}]},
+  {ek, [{16,21}, { 1,15}]},
+  {en, [{13,24}, { 1,12}]},
+  {fj, [{13,24}, { 1,12}]},
+  {fk, [{19,18}, { 1,18}]},
+  {fn, [{16,21}, { 1,15}]},
+  {gj, [{19,18}, { 1,18}]},
+  {gk, [{25,12}, { 1,24}]},
+  {gn, [{22,15}, { 1,21}]}].
 
 vesicle() ->
      [{j2,<<"vv zq dd dd ry wu dd uw dd sx dd qz ">>},
