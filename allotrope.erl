@@ -16,7 +16,10 @@
 ]).
 
 acquire(A) ->
-  proplists:get_value(A, tuplist(), string:copies("____ ", 12)).
+  L1 = re:replace(
+         proplists:get_value(A, tuplist(), string:copies("____ ", 12)),
+         [32], [183], [global, {return, list}]),
+  L2 = re:replace(L1, [95], [160], [global, {return, list}]), L2.
 
 allodium() ->
   lists:flatmap(fun(Q) -> [{Q, ennead(Q)}] end, keylist()).
@@ -59,7 +62,7 @@ nucleon(Neutron, Proton) ->
 
 obtain(A) ->
   case lists:member(A, keylist()) of
-    true -> string:tokens(acquire(A), [32,95]);
+    true -> string:tokens(proplists:get_value(A, tuplist()), [32,95]);
     false -> lists:duplicate(7, string:chars(63, 4))
   end.
 
